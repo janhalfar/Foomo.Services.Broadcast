@@ -1,0 +1,1 @@
+There is a draft for a domain config, but I guess it will not remain as is.

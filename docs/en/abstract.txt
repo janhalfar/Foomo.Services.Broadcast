@@ -1,0 +1,13 @@
+Broadcast data events to multiple clients connected through tcp sockets. Since \
+PHP´s lifecycle is rather short lived node.js helps to keep client connections \
+alive. That means your clients talk to the foomo webserver as usually and in \
+addition they connect to a node.js server through a tcp connections, that is \
+being kept open for the whole lifetime of the client process.
+
+When you want to broadcast sth. to the connected clients the foomo webserver \
+opens a second socket to the node.js server and lets it distribute data events.
+
+
+
+
+

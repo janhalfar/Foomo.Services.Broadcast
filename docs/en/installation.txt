@@ -1,0 +1,1 @@
+You need [http://nodejs.org node.js]. And your php install needs sockets.

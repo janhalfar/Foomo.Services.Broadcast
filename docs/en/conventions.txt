@@ -1,0 +1,27 @@
+<?
+$exampleBaseDir = Foomo\Config::getModuleDir(
+	\Foomo\Services\Broadcast\Module::NAME) . DIRECTORY_SEPARATOR .
+	implode(DIRECTORY_SEPARATOR, array('tests', 'Foomo', 'Services', 'Broadcast', 'Mock', 'Chat'));
+?>
+
+Let us take a look at the service broadcaster **conventionss**. Our example, a \
+chatserver has two components - **a service and a broadcaster**. The service \
+is just a regular (RPC) web service. As with any normal PHP web app clients \
+will call the service to join, send messages and leave the chat. The **service \
+has a broadcaster** that notifies the other the connected clients through events.
+
+**The broadcaster extends AbstractBroadcaster**, this marks it as a \
+broadcaster and brings in the broadcast method. **Every public function \
+annotated with an Event** will be available in the generated clients. **The \
+events name is derived from the method name** and the type of the **data \
+attached to the emitted event are defined by the events type**.
+
+<geshi type="php" file="<?= $exampleBaseDir . DIRECTORY_SEPARATOR . 'Broadcaster.php' ?>">
+</geshi>
+
+As you can see the service does not do much it delegates to the broadcaster to \
+push events to the connected clients.
+
+<geshi type="php" file="<?= $exampleBaseDir . DIRECTORY_SEPARATOR . 'Service.php' ?>">
+</geshi>
+
