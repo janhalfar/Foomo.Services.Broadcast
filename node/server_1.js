@@ -1,9 +1,36 @@
 var net = require('net');
 var inSockets = [];
+var inWebSockets = [];
 var clientInfos = {};
 var connectionCounter = 0;
-// this one manages clients
+var http = require('http');
+var settings = {
+	socketAddress : '127.0.0.1',
+	flashPort : 8081,
+	webSocketPort : 8082
+};
 
+// command line parameters
+
+if(process.argv.length > 2) {
+	if(['help', '-help', '--help', '-h'].indexOf(process.argv[2]) > -1) {
+		console.error('usage : ' + process.argv[0] + ' ' + process.argv[1] + ' serverAddress flashPort webSocketPort');
+		process.exit(0);
+	}
+	settings.socketAddress = process.argv[2];
+}
+
+if(process.argv.length > 3) {
+	settings.flashPort = process.argv[3];
+}
+
+if(process.argv.length > 4) {
+	settings.webSocketPort = process.argv[4];
+}
+
+console.log('trying to start with settings: ' + JSON.stringify(settings));
+
+// this one manages clients
 var utils = {
     getClientInfoFromInSocket: function(inSocket) {
         if(!inSocket.hasOwnProperty('_myClientId')) {
@@ -16,6 +43,26 @@ var utils = {
     }
 };
 
+
+var io = require('/Users/jan/node_modules/socket.io').listen(settings.webSocketPort);
+
+io.sockets.on('connection', function (socket) {
+    
+    inWebSockets.push(socket);
+	console.log('new connection : ' + socket);
+    var clientInfo = utils.getClientInfoFromInSocket(socket);
+    clientInfo.initialized = true;
+    
+    socket.emit('welcome', {clientId: socket._myClientId});
+});
+
+io.sockets.on('close', function (socket) {
+	console.log('websocket client ' + socket._myClientId + ' waves good bye');
+    if(socket._myClientId) {
+        delete clientInfos[socket._myClientId];
+    }
+	inWebSockets = inWebSockets.filter(function(el) { return el !== socket; });
+});
 
 var inServer = net.createServer(function(socket) {
     inSockets.push(socket);
@@ -43,14 +90,7 @@ var inServer = net.createServer(function(socket) {
             delete clientInfos[socket._myClientId];
         }
         // clean up inSockets
-        // delete inSockets[inSockets.indexOf(socket)]; <-- you have got to be kidding me !!!
-        var activeSockets = [];
-        for(var i=0;i<inSockets.length;i++) {
-            if(socket !== inSockets[i]) {
-                activeSockets.push(inSockets[i]);
-            }
-        }
-        inSockets = activeSockets;
+		inSockets = inSockets.filter(function(el) { return el !== socket; });
     });
 });
 
@@ -68,6 +108,8 @@ OutServer = function() {
                 socket.write(response);
             } else {
                 socket.write(JSON.stringify(response));
+                // hack
+                //socket.emit('event', response);
             }
     };
     var methods = {
@@ -77,9 +119,16 @@ OutServer = function() {
                 json: 0,
                 error: 0
             };
-            for (var i = 0; i < inSockets.length; i++) {
+            var i;
+            var clientInfo;
+            for(i = 0; i < inWebSockets.length; i++) {
+                var webSocket = inWebSockets[i];
+                clientInfo = utils.getClientInfoFromInSocket(webSocket);
+                //webSocket.emit('event', data[clientInfo.clientData.client.dataFormat]);
+            }
+            for (i = 0; i < inSockets.length; i++) {
                 var socket = inSockets[i];
-                var clientInfo = utils.getClientInfoFromInSocket(socket);
+                clientInfo = utils.getClientInfoFromInSocket(socket);
                 if(clientInfo.initialized && data.hasOwnProperty(clientInfo.clientData.client.dataFormat)) {
                     // console.log('sending: ' + clientInfo.clientData.client.dataFormat,  data[clientInfo.clientData.client.dataFormat]);
                     var broadcastData;
@@ -191,8 +240,14 @@ OutServer = function() {
         };
     });
 };
+
 var outServer = new OutServer();
 
+// server socket
 outServer.socketServer.listen(8765, "127.0.0.1");
 
-inServer.listen(8080, "192.168.1.233");
+// flash sockets
+inServer.listen(8081, settings.socketAddress);
+
+// web sockets
+//inWebSocketServer.listen(settings.webSocketPort, settings.socketAddress);

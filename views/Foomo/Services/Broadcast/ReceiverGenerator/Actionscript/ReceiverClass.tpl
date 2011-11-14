@@ -9,9 +9,9 @@ package <?= $model['broadcaster']->getRemotePackage()  ?>
 {
 
 	import flash.events.Event;
-	import org.foomo.rpc.RPCReceiverClient;
-	import org.foomo.rpc.GenericRPCReceiver;
-	import org.foomo.rpc.events.IncomingDataEvent;	
+	import org.foomo.rpc.broadcast.RPCReceiverClient;
+	import org.foomo.rpc.broadcast.GenericRPCReceiver;
+	import org.foomo.rpc.broadcast.events.IncomingDataEvent;	
 	import <?= $model['broadcaster']->getRemotePackage()  ?>.events.*;
 	
 	// data VOs

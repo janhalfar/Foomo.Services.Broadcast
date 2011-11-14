@@ -12,6 +12,6 @@ abstract class AbstractBroadcaster {
 		$class = $lastStackEntry['class'];
 		$function = $lastStackEntry['function'];
 		$event = str_replace('\\', '_', $class) . '_' . $function;
-		\Foomo\Services\Broadcast::broadcast($event, $data, $this->dataFormats);
+		return \Foomo\Services\Broadcast::broadcast($event, $data, $this->dataFormats);
 	}
 }

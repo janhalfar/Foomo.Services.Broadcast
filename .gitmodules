@@ -1,0 +1,3 @@
+[submodule "vendor/org.foomo/org.foomo.rpc.broadcast"]
+	path = vendor/org.foomo/org.foomo.rpc.broadcast
+	url = ../ASLibrary-foomo_rpc_broadcast.git

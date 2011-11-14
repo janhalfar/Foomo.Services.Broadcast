@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	</head>
+	<body>
+		<script src="js/socket.io.js"></script>
+		<script>
+			var socket = io.connect('http://127.0.0.1:8082');
+			socket.on('welcome', function (data) {
+				console.log('ha we made a connect');
+				console.log(data);
+			});
+			socket.on('event', function (data) {
+				console.log('incoming');
+				console.log(data);
+			});
+		</script>			
+	</body>
+</html>

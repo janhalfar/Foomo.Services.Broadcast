@@ -38,14 +38,17 @@ class Module extends \Foomo\Modules\ModuleBase
 	//---------------------------------------------------------------------------------------------
 	// ~ Overriden static methods
 	//---------------------------------------------------------------------------------------------
-
 	/**
-	 * Your module needs to be set up, before being used - this is the place to do it
+	 * initialize you module here may add some auto loading, will also be called, when switching between modes with Foomo\Config::setMode($newMode)
 	 */
 	public static function initializeModule()
 	{
+		if (!self::confExists(\Foomo\Flash\Vendor\Config::NAME)) {
+			self::setConfig(\Foomo\Flash\Vendor\Config::create(array(
+				self::NAME . '/vendor/org.foomo.rpc',
+			)));
+		}
 	}
-
 	/**
 	 * Get a plain text description of what this module does
 	 *
@@ -88,7 +91,8 @@ class Module extends \Foomo\Modules\ModuleBase
 			// request a cache resource
 			// \Foomo\Modules\Resource\Fs::getCacheResource(\Foomo\Modules\Resource\Fs::TYPE_FOLDER, 'navigationLeaves'),
 			// a database configuration
-			\Foomo\Modules\Resource\Config::getResource(self::NAME, 'Foomo.Services.broadcast')
+			\Foomo\Modules\Resource\Config::getResource(self::NAME, 'Foomo.Services.broadcast'),
+			\Foomo\Modules\Resource\Config::getResource(self::NAME, 'Foomo.Flash.vendorConfig')
 		);
 	}
 	public static function getBrodcasterSrcDir($generatorClassname, $broadcasterClassname)

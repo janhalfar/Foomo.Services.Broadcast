@@ -3,7 +3,7 @@
 <title>WebSocket Test</title>  
 <script language="javascript" type="text/javascript"> 
 	
-var wsUri = "ws://192.168.56.101:8080"; 
+var wsUri = "ws://192.168.1.233:8082"; 
 var output;  
 function init() { 
 	output = document.getElementById("output"); 
@@ -25,6 +25,8 @@ function testWebSocket() {
 		onError(evt) 
 	}; 
 }  
+
+window.addEventListener("load", init, false);  
 
 function onOpen(evt) { 
 	writeToScreen("CONNECTED"); 
@@ -49,8 +51,8 @@ function writeToScreen(message) {
 	pre.style.wordWrap = "break-word"; 
 	pre.innerHTML = message; 
 	output.appendChild(pre); 
-}  
-window.addEventListener("load", init, false);  
+}
+
 </script>  
 <h2>WebSocket Test</h2>  
 <div id="output"></div>  
