@@ -1,0 +1,1 @@
+<p>Receiver was generated</p>

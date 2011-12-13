@@ -24,7 +24,7 @@ foreach($model['events'] as $event):
 	[Event(name="<?= str_replace('\\', '_', $model['broadcaster']->type) . '_' . $event->name ?>", type="<?= $model['broadcaster']->getRemotePackage()  ?>.events.<?= ucfirst($event->name) ?>Event")]
 <?
 
-if(PHPUtils::isASStandardType($event->type) || in_array()) {
+if(PHPUtils::isASStandardType($event->type)) {
 	continue;
 }
 

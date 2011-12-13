@@ -10,9 +10,7 @@ class Controller {
 	public function actionDefault() {}
 	public function actionGenerateReceiver($generator, $broadcaster)
 	{
-		\Foomo\MVC::abort();
 		$generator = new $generator($broadcaster);
 		$generator->generateReceiver();
-		exit;
 	}
 }
