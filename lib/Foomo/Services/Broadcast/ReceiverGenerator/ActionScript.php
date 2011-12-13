@@ -34,6 +34,6 @@ class ActionScript extends AbstractGenerator {
 	}
 	private function getView($template, $model)
 	{
-		return Module::getView(__CLASS__ . '\\ActionScript', $template, $model);
+		return Module::getView(__CLASS__ . '\\Actionscript', $template, $model);
 	}
 }
