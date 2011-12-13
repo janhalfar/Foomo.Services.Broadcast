@@ -6,7 +6,7 @@ use Foomo\Services\Broadcast\Utils;
 use Foomo\Services\Broadcast\Module;
 use Foomo\Flash\ActionScript\PHPUtils;
 
-class ActionScript extends AbstractGenerator {
+class Actionscript extends AbstractGenerator {
 	public $events = array();
 	public function generateReceiver()
 	{
@@ -34,6 +34,6 @@ class ActionScript extends AbstractGenerator {
 	}
 	private function getView($template, $model)
 	{
-		return Module::getView(__CLASS__ . '\\Actionscript', $template, $model);
+		return Module::getView(__CLASS__ . '\\isAHackAndWillbecut', $template, $model);
 	}
 }
