@@ -35,10 +35,18 @@ if ('' != $remoteClass = $model->getRemoteClass()):?>
 
 	[Bindable]
 	public class <?= PHPUtils::getASType($model->type) ?> {
+	
+<? 
+	foreach($model->constants as $constName => $const): 
+?>
+		public static const <?= $constName ?>:String = '<?= $const ?>';
+<? endforeach; ?>
+
 <? 
 	foreach($model->props as $propName => $prop): 
 ?>
 		public var <?= $propName ?>:<?= PHPUtils::getASType($prop->type) ?>;
 <? endforeach; ?>
+
 	}
 }
