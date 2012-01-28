@@ -46,7 +46,7 @@ if(PHPUtils::isASStandardType($event->type)) {
 					foreach($model['events'] as $event): 
 						$eventTypeObj = new ServiceObjectType($event->type);
 				?>
-				case <?= ucfirst($event->name) ?>Event.<?= strtoupper($event->name) ?>:
+				case <?= ucfirst($event->name) ?>Event.<?= PHPUtils::camelCaseToConstant($event->name) ?>:
 					var <?= $event->name ?>Event:<?= ucfirst($event->name) ?>Event = new <?= ucfirst($event->name) ?>Event(event.data as <?= PHPUtils::getASType($event->type) ?>);
 					this.dispatchEvent(<?= $event->name ?>Event);
 					break;

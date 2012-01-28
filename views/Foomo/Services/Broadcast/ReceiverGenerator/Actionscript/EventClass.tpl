@@ -18,11 +18,11 @@ package <?= $model['broadcaster']->getRemotePackage()  ?>.events
 	
 	public class <?= ucfirst($model['event']->name) ?>Event extends Event
 	{
-		public static const <?= strtoupper($model['event']->name) ?>:String = "<?= str_replace('\\', '_', $model['broadcaster']->type) . '_' . $model['event']->name ?>";
+		public static const <?= $eventConstName = PHPUtils::camelCaseToConstant($model['event']->name) ?>:String = "<?= str_replace('\\', '_', $model['broadcaster']->type) . '_' . $model['event']->name ?>";
 		public var data:<?= PHPUtils::getASType($model['event']->type) ?>;
 		public function <?= ucfirst($model['event']->name) ?>Event(data:<?= PHPUtils::getASType($model['event']->type) ?>)
 		{
-			super(<?= strtoupper($model['event']->name) ?>);
+			super(<?= $eventConstName ?>);
 			this.data = data;
 		}
 		

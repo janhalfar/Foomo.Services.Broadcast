@@ -45,7 +45,11 @@ if ('' != $remoteClass = $model->getRemoteClass()):?>
 <? 
 	foreach($model->props as $propName => $prop): 
 ?>
+<? if($prop->isArrayOf): ?>
+		public var <?= $propName ?>:Array;
+<? else: ?>
 		public var <?= $propName ?>:<?= PHPUtils::getASType($prop->type) ?>;
+<? endif ?>
 <? endforeach; ?>
 
 	}
